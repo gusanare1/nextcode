@@ -24,14 +24,13 @@
 		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="configuracion_establecimiento" placeholder="Establecimiento">
 		</textarea>
 		<input type="text" placeholder="Punto de emision" ng-model="configuracion_punto_emision">
-		<input type="text" placeholder="Sec. Factura" ng-model="configuracion_sec_factura">
+		<input type="text" placeholder="Secuencia. Factura" ng-model="configuracion_sec_factura">
 		<input type="submit" id="submit" name="submit">
 	</form>
 
 	
 	<div ng-if="ver" ng-init="ver=false">
 		{{message}}
-	
 	</div>
 </body>
 </html>

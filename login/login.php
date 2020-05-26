@@ -19,14 +19,15 @@
 						':username'	=>	$form_data->username,
 						':password'	=>	md5($pwd)				
 						);			
-			$query = "SELECT username FROM usuario WHERE username=:username and password=:password"; //username unique
+			$query = "SELECT username, r.nombre as rol FROM usuario u, rol r WHERE u.idRol = r.id and username=:username and password=:password"; //username unique
 			$statement = $connect->prepare($query);
 			$statement->execute($data);
 			$result = $statement->fetchAll();
-			if(count($result))
+			if(count($result)>0)
 			{
 				$error[] = "";
 				$output = true; 
+				//$_SESSION["rol"] = $result[0]['rol'];
 				$_SESSION["username"] = $result[0]['username'];
 			}
 			else

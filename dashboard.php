@@ -1,3 +1,6 @@
+<?php
+use DatosPersonales\Permisos;
+?>
 <html>
 	<head>
 		<title>Login</title>
@@ -14,14 +17,21 @@
 
 
 <body>
-	
-	
-	<ul>
-		<li><a href="mantenimiento/mantenimiento_configuracion.html">Mantenimiento de Configuracion </a></li>
-		<li><a href="mantenimiento/mantenimiento_clientes.html">Mantenimiento de Clientes </a></li>
-		<li><a href="mantenimiento/mantenimiento_empresa.html">Mantenimiento de la Empresa </a></li>
-	</ul>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="collapse navbar-collapse">
+		<ul class="navbar-nav mr-auto">
+			<?php
 
-
-
+				foreach($user->paginas_permitidas as $nav_pag) 
+				{
+			?>
+					<li class="nav-item active" style="margin-right:2em;">
+						<a class="nav-link" href="<?php  echo DatosPersonales\Permisos::$navegador_url[$nav_pag]; ?>"> <?php echo DatosPersonales\Permisos::$navegador_titulo[$nav_pag]; ?> <span class="sr-only"> </a>
+					</li>
+			<?php
+				}
+			?>
+		</ul>
+	</div>
+	</nav>
 </body>
