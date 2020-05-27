@@ -1,5 +1,24 @@
 var app = angular.module('mantenimiento', []);
-app.controller('configuracion', function($scope, $http, $log, $window) {
+
+//Servicio para compartir funciones entre controladores
+app.service('service_atras', function($window) {
+this.ir_atras = function()
+{
+	console.log("Atras");
+	$window.history.back();
+}
+	
+});
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////CONFIGURACION////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+app.controller('configuracion', function($scope, $http, $window, $timeout,service_atras) {
       $http({
       method: 'POST',
       url: 'mantenimiento.php',
@@ -18,8 +37,11 @@ app.controller('configuracion', function($scope, $http, $log, $window) {
       alert("Error. Error login!");
     });
 
-
-  $scope.enviar = function() {
+$scope.atras = function(){
+				service_atras.ir_atras();
+	};
+	
+  $scope.enviar = function(service_atras) {
     //$http POST function
 	
     $http({
@@ -32,6 +54,9 @@ app.controller('configuracion', function($scope, $http, $log, $window) {
 	  $scope.message = response.data.message;
 	  $scope.ver = response.data.sucess;
 	  
+	  $timeout(function () {
+     $scope.ver = !response.data.sucess;
+  }, 2000);
 
     }, function errorCallback(response) {
 		console.log(response);
@@ -42,6 +67,13 @@ app.controller('configuracion', function($scope, $http, $log, $window) {
 });
 
 
+
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+/////////////////CLIENTES//////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 app.controller('clientes', function($scope, $http, $log, $window) {
  
@@ -128,6 +160,14 @@ app.controller('clientes', function($scope, $http, $log, $window) {
 		//$scope.submitForm();
 	};
 
+	
+	
+	$scope.atras = function(service_atras){
+				service_atras.ir_atras();
+	};
+	
+	
+	
   
   $scope.submitForm = function() {
     //$http POST function
@@ -151,4 +191,56 @@ app.controller('clientes', function($scope, $http, $log, $window) {
   };
 });
 
+
+
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+//////////EMPRESA/////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+app.controller('empresa', function($scope, $http, $log, $window) {
+      $http({
+      method: 'POST',
+      url: 'mantenimiento.php',
+      data: {'action':'mantenimiento_empresa_get'}
+
+    }).then(function successCallback(response) {
+	console.log(response.data);
+		$scope.empresa_id = response.data.resultado[0].id;
+		$scope.empresa_nombre = response.data.resultado[0].nombre;
+		$scope.empresa_razon_social = response.data.resultado[0].razon_social;
+		$scope.empresa_direccion = response.data.resultado[0].direccion;
+		$scope.empresa_ruc = response.data.resultado[0].ruc;
+
+    }, function errorCallback(response) {
+		console.log(response);
+      alert("Error. Error getting data!");
+    });
+
+
+  $scope.enviar = function() {
+    //$http POST function
+	
+    $http({
+      method: 'POST',
+      url: 'mantenimiento.php',
+      data: {'empresa_id':$scope.empresa_id ,'empresa_nombre':$scope.empresa_nombre, 'empresa_razon_social':$scope.empresa_razon_social, 'empresa_direccion':$scope.empresa_direccion, 'empresa_ruc':$scope.empresa_ruc, 'action':'mantenimiento_empresa_put'}
+
+    }).then(function successCallback(response) {
+	console.log(response.data);
+	  $scope.message = response.data.message;
+	  $scope.ver = response.data.sucess;
+	  
+
+    }, function errorCallback(response) {
+		console.log(response);
+      alert("Error. Error al enviar datos!");
+    });
+
+  };
+});
 

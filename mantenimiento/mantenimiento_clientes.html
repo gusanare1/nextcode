@@ -16,13 +16,11 @@
 
 <body class="ng-scope" ng-app="mantenimiento" ng-controller="clientes">
 	
-	<div >
-	
-	
-	
+	<a href="#" ng-click="atras()" >Atras </a>
 	<h1>
 		Mantenimiento Clientes
 	</h1>
+
 	
 	<table>
 		<thead>
@@ -42,7 +40,6 @@
 				<td>{{cliente.apellido}}</td>
 				<td>{{cliente.telefono}}</td>
 				<td>{{cliente.emision}}</td>
-
 			</tr>
 		</tbody>
 		
@@ -55,7 +52,7 @@
 	<button type="button" name="add_button" ng-click="addData()" class="btn btn-success" ng-init="see=false">Add</button>	
 	
 	<form method="post" ng-submit="submitForm()" ng-show="see">
-		<input type="text" ng-model="cliente_id"/>
+		<input type="hidden" ng-model="cliente_id"/>
 		<input type="text" placeholder="Cedula/RUC" ng-model="cliente_identificacion">
 		<input type="text" placeholder="Nombre" ng-model="cliente_nombre">
 		<input type="text" placeholder="Apellido" ng-model="cliente_apellido">
@@ -67,7 +64,7 @@
 
 	
 	<div>
-	A:A:
+	
 		{{message}}
 	</div>
 </body>

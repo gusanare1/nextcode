@@ -14,18 +14,19 @@
 </head>
 
 
-<body class="ng-scope" ng-app="mantenimiento" ng-controller="configuracion">
-	<a href="#" ng-click="atras()" >Atras </a>
+<body class="ng-scope" ng-app="mantenimiento" ng-controller="empresa">
+<a ng-click="atras()" >Atras </a>
 	<h1>
-		Mantenimiento Configuracion
+		Mantenimiento Empresa
 	</h1>
 	
 	<form method="post" ng-submit="enviar()">
-		<input type="hidden" ng-model="configuracion_id">
-		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="configuracion_establecimiento" placeholder="Establecimiento">
-		</textarea>
-		<input type="text" placeholder="Punto de emision" ng-model="configuracion_punto_emision">
-		<input type="text" placeholder="Secuencia. Factura" ng-model="configuracion_sec_factura">
+		<input type="text" ng-model="empresa_id">
+		<input type="text" placeholder="Nombre" ng-model="empresa_nombre">
+		<input type="text" placeholder="Razon Social" ng-model="empresa_razon_social">
+		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="empresa_direccion" placeholder="Direccion"></textarea>
+		<input type="text" placeholder="RUC" ng-model="empresa_ruc">
+
 		<input type="submit" id="submit" name="submit">
 	</form>
 

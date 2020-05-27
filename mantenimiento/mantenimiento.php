@@ -67,15 +67,15 @@
 	$message = [];
 	if($form_data->action == 'mantenimiento_clientes_put')
 	{
-		if(isset($form_data->cliente_identificacion))
+		if(!isset($form_data->cliente_identificacion))
 		{
 				$message[] = "Cedula / RUC no debe ser vacio";
 		}
-		if(isset($form_data->cliente_nombre))
+		if(!isset($form_data->cliente_nombre))
 		{
 				$message[] = "Nombre no debe ser vacio";				
 		}
-		if(isset($form_data->cliente_apellido))
+		if(!isset($form_data->cliente_apellido))
 		{
 				$message[] = "Apellido no debe ser vacio";				
 		}
@@ -95,6 +95,12 @@
 				if($statement->execute($data))
 				{
 					$output["message"] = "Insercion exitosa";
+					$output["sucess"] = true;
+				}
+				else{
+					$error_arr=$statement->errorInfo(); //["23000","1062","Duplicate entry '1' for key 'identificacion_UNIQUE'"]
+					if($error_arr[1] == "1062")
+						$output["message"] = "Duplicidad de Cedula/RUC";
 					$output["sucess"] = true;
 				}
 			}
@@ -120,6 +126,47 @@
 		{
 			$output["message"] = implode("; ",$message);
 		}
+	}
+	
+	
+	
+	
+	
+	
+	if($form_data->action == 'mantenimiento_empresa_get')
+	{
+		$data = array(
+		);		
+		
+		$query = "select id, nombre, razon_social, direccion, ruc from empresa";
+		$statement = $connect->prepare($query);
+		$statement->execute($data);
+		$result = $statement->fetchAll();
+		$output["resultado"] = $result;
+		
+	}
+	
+	if($form_data->action == 'mantenimiento_empresa_put')
+	{
+		$data = array(
+			':empresa_id' => $form_data->empresa_id,
+			':empresa_nombre' => $form_data->empresa_nombre,
+			':empresa_razon_social' => $form_data->empresa_razon_social,
+			':empresa_direccion' => $form_data->empresa_direccion,
+			':empresa_ruc' => $form_data->empresa_ruc,
+		);
+
+		$query = "update empresa set nombre=:empresa_nombre, razon_social=:empresa_razon_social, direccion=:empresa_direccion, ruc=:empresa_ruc where id=:empresa_id";
+		$statement = $connect->prepare($query);
+		if($statement->execute($data))
+		{
+			$output["message"] = "Update empresa exitoso";
+			
+		}
+		else
+			$output["message"] = "Update empresa NO exitoso";
+		$output["message"] = "";
+		
 	}
 	
 	

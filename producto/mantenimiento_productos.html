@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<title>Mantenimiento de clientes</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+	<script
+	  src="https://code.jquery.com/jquery-3.5.1.min.js"
+	  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+	  crossorigin="anonymous"></script>
+	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="js/productos_js.js"></script>	
+</head>
+
+
+
+<body class="ng-scope" ng-app="productos" ng-controller="producto">
+	<a href="#" ng-click="atras()" >Atras </a>
+	<h1>
+		Mantenimiento de Productos
+	</h1>
+		<button class="btn btn-info" ng-click="addProducto()" > Producto Nuevo </button>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Codigo</th>
+				<th>Descripcion</th>
+				<th>Precio Unitario</th>
+				<th>Disponibles en Stock</th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="producto in productos">
+			<tr>
+				<td>{{producto.nombre}}</td>
+				<td><a href="#" ng-click="fetchProducto(producto.id)">{{producto.codigo}}</a></td>
+				<td>{{producto.descripcion}}</td>
+				<td>{{producto.precio_unitario}}</td>
+				<td>{{producto.cantidad_disponible}}</td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<form method="post" ng-submit="enviar()" ng-show="ver_form" ng-init="ver_form=false">
+		<input type="hidden" ng-model="producto_id">
+		<input type="text" placeholder="Nombre" ng-model="producto_nombre">
+		<input type="text" placeholder="Codigo" ng-model="producto_codigo">
+		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="producto_descripcion" placeholder="Descripcion">
+		</textarea>
+		<input type="number" step="0.01" placeholder="Precio Unitario" ng-model="producto_precio_unitario">
+		<input type="number" step="1" placeholder="Disponibilidad Stock" ng-model="producto_cantidad_disponible_stock">
+
+		<input type="submit" id="submit" value="{{submit_text}}">
+	</form>
+
+	
+	<div ng-if="ver" ng-init="ver=false">
+		{{message}}
+	</div>
+</body>
+</html>
