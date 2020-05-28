@@ -1,5 +1,8 @@
 <?php
 use DatosPersonales\Permisos;
+include("Empresa.php");
+
+$empresa = new Empresa();
 ?>
 <html>
 	<head>
@@ -17,9 +20,14 @@ use DatosPersonales\Permisos;
 
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<div class="collapse navbar-collapse">
-		<ul class="navbar-nav mr-auto">
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Empresa <?php echo $empresa->nombre ?> </a>
+		</div>
+		
 			<?php
 
 				foreach($user->paginas_permitidas as $nav_pag) 

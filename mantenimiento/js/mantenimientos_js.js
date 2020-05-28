@@ -75,7 +75,7 @@ $scope.atras = function(){
 ///////////////////////////////////////////
 ///////////////////////////////////////////
 
-app.controller('clientes', function($scope, $http, $log, $window) {
+app.controller('clientes', function($scope, $http, $log, $window, service_atras) {
  
     $http({
       method: 'POST',
@@ -160,9 +160,8 @@ app.controller('clientes', function($scope, $http, $log, $window) {
 		//$scope.submitForm();
 	};
 
-	
-	
-	$scope.atras = function(service_atras){
+
+$scope.atras = function(){
 				service_atras.ir_atras();
 	};
 	
@@ -175,7 +174,7 @@ app.controller('clientes', function($scope, $http, $log, $window) {
     $http({
       method: 'POST',
       url: 'mantenimiento.php',
-      data: {'action':'mantenimiento_clientes_put', 'cliente_id':$scope.cliente_id, 'cliente_identificacion':$scope.cliente_identificacion, 'cliente_nombre':$scope.cliente_nombre, 'cliente_apellido':$scope.cliente_apellido, 	'cliente_telefono':$scope.cliente_telefono, 'cliente_fecha_emision':$scope.cliente_fecha_emision, 'subaction':$scope.submit_button}
+      data: {'action':'mantenimiento_clientes_put', 'cliente_id':$scope.cliente_id, 'cliente_identificacion':$scope.cliente_identificacion, 'cliente_nombre':$scope.cliente_nombre, 'cliente_apellido':$scope.cliente_apellido, 'cliente_telefono':$scope.cliente_telefono, 'cliente_fecha_emision':$scope.cliente_fecha_emision, 'subaction':$scope.submit_button}
 
     }).then(function successCallback(response) {
 	console.log(response.data);
@@ -202,7 +201,7 @@ app.controller('clientes', function($scope, $http, $log, $window) {
 ///////////////////////////////////////////
 
 
-app.controller('empresa', function($scope, $http, $log, $window) {
+app.controller('empresa', function($scope, $http, $log, $window, service_atras) {
       $http({
       method: 'POST',
       url: 'mantenimiento.php',
@@ -222,6 +221,11 @@ app.controller('empresa', function($scope, $http, $log, $window) {
     });
 
 
+$scope.atras = function(){
+				service_atras.ir_atras();
+	};
+	
+	
   $scope.enviar = function() {
     //$http POST function
 	
@@ -242,5 +246,8 @@ app.controller('empresa', function($scope, $http, $log, $window) {
     });
 
   };
+  
+  
+  
 });
 

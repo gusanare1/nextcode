@@ -22,24 +22,27 @@
 	</h1>
 
 	
-	<table>
+	<table class="table table-dark">
 		<thead>
 		<tr>
-			<th>Cedula</th>
-			<th>Nombre</th>
-			<th>Apellido</th>
-			<th>Telefono</th>
-			<th>Fecha de emision</th>
+			<th scope="col">Cedula/RUC</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Apellido</th>
+			<th scope="col">Telefono</th>
+			<th scope="col">Fecha de emision</th>
+			<th></th>
 		</tr>
 		</thead>
 		
 		<tbody ng-repeat="cliente in clientes.resultado">
 			<tr>
 				<td>{{cliente.identificacion}}</td>
-				<td><a href="#" ng-click="fetchSingleData(cliente.id)">{{cliente.nombre}}</td>
+				<td>{{cliente.nombre}}</td>
 				<td>{{cliente.apellido}}</td>
 				<td>{{cliente.telefono}}</td>
 				<td>{{cliente.emision}}</td>
+				<td><button ng-click="fetchSingleData(cliente.id)" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCliente">EDIT</button></td>
+				
 			</tr>
 		</tbody>
 		
@@ -49,23 +52,92 @@
 	
 	</table>
 	
-	<button type="button" name="add_button" ng-click="addData()" class="btn btn-success" ng-init="see=false">Add</button>	
-	
-	<form method="post" ng-submit="submitForm()" ng-show="see">
-		<input type="hidden" ng-model="cliente_id"/>
-		<input type="text" placeholder="Cedula/RUC" ng-model="cliente_identificacion">
-		<input type="text" placeholder="Nombre" ng-model="cliente_nombre">
-		<input type="text" placeholder="Apellido" ng-model="cliente_apellido">
-		<input type="number" placeholder="Telefono" ng-model="cliente_telefono">
-		<input type="date" placeholder="Fecha_emision" ng-model="cliente_fecha_emision" disabled>
-		<input type="submit" id="submit" name="submit" value="{{submit_button}}"/>
-		
-	</form>
+
 
 	
 	<div>
 	
 		{{message}}
 	</div>
+	
+	
+	
+	
+	
+	<button ng-click="addData()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCliente">ADD</button>
+	
+	
+	<div class="modal fade in" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+		
+		<form method="post" ng-submit="submitForm()">
+		<input type="hidden" ng-model="cliente_id" />
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Identificacion</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" required name="identificacion" pattern="\d*" placeholder="Cedula/RUC" ng-model="cliente_identificacion" maxlength="10" minlength="8" title="Solo se solicitan numeros">			
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Nombre" ng-model="cliente_nombre">		
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Apellido</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Apellido" ng-model="cliente_apellido">		
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">ITelefonon(042970987)</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Telefono" ng-model="cliente_telefono" maxlength="10" minlength="9" pattern="\d*"title="Solo se solicitan numeros (9-10 digitos)">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Identificacion</label>
+			<div class="col-sm-10">
+				<input type="date" class="form-control" placeholder="Fecha_emision" ng-model="cliente_fecha_emision" disabled>		
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			
+		</div>
+		
+		<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" id="submit" class="btn btn-success" name="submit" value="{{submit_button}}"/>
+      </div>
+	</form>
+		
+		
+      </div>
+      
+    </div>
+  </div>
+</div>
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>

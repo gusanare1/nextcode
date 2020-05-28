@@ -1,6 +1,9 @@
 <?php
 require_once("../Encriptacion.php");
+include("../Validar.php");
 use Encriptar\Constantes as Constantes;
+use Validador\Validar;
+
 //require_once("../Encriptacion.php");
 	session_start(); //Para evitar el uso de crud externos...
 	
@@ -14,6 +17,7 @@ use Encriptar\Constantes as Constantes;
 	
 	if(isset($_SESSION["username"])) //Cambio de session para uso en otros  modulos
 	{
+		$validar = new Validar();
 		include('../conexion.php');
 		$form_data = json_decode(file_get_contents("php://input"));
 		$message = '';
@@ -87,26 +91,36 @@ use Encriptar\Constantes as Constantes;
 					);			
 					$query = "insert into producto(nombre, codigo, descripcion, precio_unitario) values (:producto_nombre, :producto_codigo, :producto_descripcion, :producto_precio_unitario)";
 					
-					$statement = $connect->prepare($query);
-					if($statement->execute($data))
+					
+					$arr_validado = $validar->ValidarArray($data);
+					if(count($arr_validado)==0)
 					{
-						$output["message"] = "Producto insertado exitosamente";
-						$output["sucess"] = true;
-						$last_id = $connect->lastInsertId();
-						$data2 = array(
-						':lote_id_producto' => $last_id,
-						':producto_stock' => $form_data->cantidad_disponible,
-						);
-						$query2 = "insert into lote (idProducto, cantidad_disponible) values(:lote_id_producto, :producto_stock)";
-						$statement = $connect->prepare($query2);
-						$statement->execute($data2);
+						$statement = $connect->prepare($query);
+						if($statement->execute($data))
+						{
+							$output["message"] = "Producto insertado exitosamente";
+							$output["sucess"] = true;
+							$last_id = $connect->lastInsertId();
+							$data2 = array(
+							':lote_id_producto' => $last_id,
+							':producto_stock' => $form_data->cantidad_disponible,
+							);
+							$query2 = "insert into lote (idProducto, cantidad_disponible) values(:lote_id_producto, :producto_stock)";
+							$statement = $connect->prepare($query2);
+							$statement->execute($data2);
+						}
+						else{
+							$error_arr=$statement->errorInfo(); //["23000",1062,"Duplicate entry '1' for key 'identificacion_UNIQUE'"]
+							if($error_arr[1] == "1062") //futore More codigos
+								$output["message"] = "Codigo de producto repetido";
+							$output["sucess"] = true;
+						}
 					}
-					else{
-						$error_arr=$statement->errorInfo(); //["23000",1062,"Duplicate entry '1' for key 'identificacion_UNIQUE'"]
-						if($error_arr[1] == "1062") //futore More codigos
-							$output["message"] = "Codigo de producto repetido";
-						$output["sucess"] = true;
+					else
+					{
+						$output["message"] = $arr_validado;
 					}
+
 				}
 				if($form_data->subaction == "Modificar")
 				{
@@ -117,25 +131,38 @@ use Encriptar\Constantes as Constantes;
 					'producto_codigo'=> $form_data->producto_codigo,
 					'producto_descripcion'=> $form_data->producto_descripcion,
 					'producto_precio_unitario'=> $form_data->producto_precio_unitario,
-					);			
-					$query = "update producto set nombre=:producto_nombre, codigo=:producto_codigo, descripcion=:producto_descripcion,precio_unitario=:producto_precio_unitario where id=:producto_id";
-					$statement = $connect->prepare($query);
-					if($statement->execute($data))
+					);
+					$arr_validado = $validar->ValidarArray($data);
+					
+					if(count($arr_validado)==0) //No hay errores
 					{
-						$data2 = array(
-						'lote_id_producto'=> $id_,
-						'producto_stock'=>$form_data->cantidad_disponible
-						);
-						$query2 = "update lote set cantidad_disponible=:producto_stock where idProducto=:lote_id_producto";
-						$statement = $connect->prepare($query2);
-						if($statement->execute($data2))
-							$output["message"] = "Cambio exitoso";
-						else 
-							$output["message"] = "Cambio NO exitoso en lote";
+						
+						$query = "update producto set nombre=:producto_nombre, codigo=:producto_codigo, descripcion=:producto_descripcion,precio_unitario=:producto_precio_unitario where id=:producto_id";
+						$statement = $connect->prepare($query);
+						if($statement->execute($data))
+						{
+							$data2 = array(
+							'lote_id_producto'=> $id_,
+							'producto_stock'=>$form_data->cantidad_disponible
+							);
+							$query2 = "update lote set cantidad_disponible=:producto_stock where idProducto=:lote_id_producto";
+							$statement = $connect->prepare($query2);
+							if($statement->execute($data2))
+								$output["message"] = "Cambio exitoso";
+							else 
+								$output["message"] = "Cambio NO exitoso en lote";
+						}
+						else{
+							$output["message"] = "No se pudo cambiar el producto";
+						}
+						
+						
 					}
-					else{
-						$output["message"] = "No se pudo cambiar el producto";
+					else
+					{
+						$output["message"] = $arr_validado;
 					}
+					
 					
 				}
 				

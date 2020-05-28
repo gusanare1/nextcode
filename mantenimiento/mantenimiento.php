@@ -1,4 +1,6 @@
 <?php
+namespace Validador;
+require_once("../Validar.php");
 	session_start();
 	
 	include('../conexion.php');
@@ -69,11 +71,11 @@
 	{
 		if(!isset($form_data->cliente_identificacion))
 		{
-				$message[] = "Cedula / RUC no debe ser vacio";
+				array_push($message,"Cedula / RUC no debe ser vacio");
 		}
 		if(!isset($form_data->cliente_nombre))
 		{
-				$message[] = "Nombre no debe ser vacio";				
+			array_push($message, "Nombre no debe ser vacio");
 		}
 		if(!isset($form_data->cliente_apellido))
 		{

@@ -20,45 +20,124 @@
 	<h1>
 		Mantenimiento de Productos
 	</h1>
-		<button class="btn btn-info" ng-click="addProducto()" > Producto Nuevo </button>
-
-	<table>
+	
+	
+	
+		<button ng-click="addProducto()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProducto">Producto Nuevo</button>
+		
+	<table class="table table-dark">
 		<thead>
 			<tr>
-				<th>Nombre</th>
-				<th>Codigo</th>
-				<th>Descripcion</th>
-				<th>Precio Unitario</th>
-				<th>Disponibles en Stock</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Codigo</th>
+				<th scope="col">Descripcion</th>
+				<th scope="col">Precio Unitario</th>
+				<th scope="col">Disponibles en Stock</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody ng-repeat="producto in productos">
 			<tr>
-				<td>{{producto.nombre}}</td>
-				<td><a href="#" ng-click="fetchProducto(producto.id)">{{producto.codigo}}</a></td>
+				<td scope="row">{{producto.nombre}}</td>
+				<td>{{producto.codigo}}</td>
 				<td>{{producto.descripcion}}</td>
 				<td>{{producto.precio_unitario}}</td>
 				<td>{{producto.cantidad_disponible}}</td>
-				
+				<td><button ng-click="fetchProducto(producto.id)" data-toggle="modal" data-target="#modalProducto">Editar</button> </td>
 			</tr>
 		</tbody>
 	</table>
 	
-	<form method="post" ng-submit="enviar()" ng-show="ver_form" ng-init="ver_form=false">
-		<input type="hidden" ng-model="producto_id">
-		<input type="text" placeholder="Nombre" ng-model="producto_nombre">
-		<input type="text" placeholder="Codigo" ng-model="producto_codigo">
-		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="producto_descripcion" placeholder="Descripcion">
-		</textarea>
-		<input type="number" step="0.01" placeholder="Precio Unitario" ng-model="producto_precio_unitario">
-		<input type="number" step="1" placeholder="Disponibilidad Stock" ng-model="producto_cantidad_disponible_stock">
-
-		<input type="submit" id="submit" value="{{submit_text}}">
-	</form>
+	
 
 	
-	<div ng-if="ver" ng-init="ver=false">
+
+	
+	
+	
+	<div class="modal fade in" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+	  
+	  <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
+	  
+	  <div ng-if="ver" class="alert alert-info" ng-init="ver=false" role="alert">
 		{{message}}
 	</div>
+	
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+		<form method="post" ng-submit="enviar()" ng-show="ver_form" ng-init="ver_form=false">
+		<input type="hidden" ng-model="producto_id">
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Nombre" ng-model="producto_nombre">		
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Codigo</label>
+			<div class="col-sm-10">
+				<input type="text"  class="form-control" placeholder="Codigo" ng-model="producto_codigo">		
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Descripcion</label>
+			<div class="col-sm-10">
+				<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="producto_descripcion"  class="form-control" placeholder="Descripcion">
+				</textarea>	
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Precio Unitario</label>
+			<div class="col-sm-10">
+				<input type="number" step="0.01"  class="form-control" placeholder="Precio Unitario" ng-model="producto_precio_unitario">	
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="identificacion" class="col-sm-2 col-form-label">Disponibilidad</label>
+			<div class="col-sm-10">
+				<input type="number" step="1"  class="form-control" placeholder="Disponibilidad Stock" ng-model="producto_cantidad_disponible_stock">	
+			</div>
+		</div>
+		
+		
+		<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" id="submit" value="{{submit_text}}">
+      </div>
+		
+	</form>
+		
+		
+		
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>

@@ -21,14 +21,44 @@
 	</h1>
 	
 	<form method="post" ng-submit="enviar()">
-		<input type="text" ng-model="empresa_id">
-		<input type="text" placeholder="Nombre" ng-model="empresa_nombre">
-		<input type="text" placeholder="Razon Social" ng-model="empresa_razon_social">
-		<textarea cols= "50" rows="2" type="text" name="notificacion_text" ng-model="empresa_direccion" placeholder="Direccion"></textarea>
-		<input type="text" placeholder="RUC" ng-model="empresa_ruc">
-
-		<input type="submit" id="submit" name="submit">
-	</form>
+		<div class="form-group row">
+			<label for="id" class="col-sm-2 col-form-label"></label>
+			<input type="hidden" name="id" ng-model="empresa_id">
+		</div>
+		
+		<div class="form-group row">
+		<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="empresa_nombre">
+			</div>			
+		</div>
+		<div class="form-group row">
+			<label for="razon_social" class="col-sm-2 col-form-label">Razon Social</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" placeholder="Razon Social" name="razon_social" ng-model="empresa_razon_social">
+			</div>
+		</div>
+		<div class="form-group row"> 
+			<label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+			<div class="col-sm-10">
+				<textarea cols= "50" rows="2" class="form-control" name="direccion" type="text" name="notificacion_text" ng-model="empresa_direccion" placeholder="Direccion"></textarea>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="ruc" class="col-sm-2 col-form-label">RUC</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="ruc" placeholder="RUC" ng-model="empresa_ruc">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<div class="col-sm-10">
+			  <input type="submit" class="btn btn-primary" id="submit" name="submit" value="Enviar">
+			</div>
+		</div>
+		
+		</form>
 
 	
 	<div ng-if="ver" ng-init="ver=false">
