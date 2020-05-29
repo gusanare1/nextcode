@@ -6,6 +6,7 @@
 		public $razon_social;
 		public $direccion;
 		public $ruc;
+		public $aut_sri="1234567890";
 		
 		public function __construct()
 		{
