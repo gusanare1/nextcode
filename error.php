@@ -1,6 +1,10 @@
 <?php
+session_start();
 
-
+	if(isset($_SESSION["error"]))
+		$err = $_SESSION["error"];
+	else
+		$err = "No permitido";
 ?>
 
 <html>
@@ -22,7 +26,7 @@
 <body>
 	
 	
-	<h1> <a href="login/login.html"> <?php  echo $_SESSION["error"]; 
+	<h1> <a href="login/login.html"> <?php  echo $err; 
 				session_destroy();?> </a></h1>
 
 </body>

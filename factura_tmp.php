@@ -195,16 +195,6 @@ $factura = new Factura("principal");
 				border-right:2px solid #73ad21;
 			}
 			
-			.row_valor_total{
-				border-bottom: 1px solid black;
-				background-color: darkseagreen;
-			}
-			
-			.valores_facturar{
-				grid-template-columns: 18em auto;
-				right: 0;
-				position: absolute;
-			}
 			
 		</style>
 	</head>
@@ -249,8 +239,7 @@ $factura = new Factura("principal");
 				<h3 class="center-text">FACTURA</h3>
 			</div>
 			<div class="grid-one-column">
-				<h4 class="center-text" ng-if="!show_secuencia_inicial" >No. <?php echo $factura->secuencia;?></h4>
-				<h4 class="center-text" ng-if="show_secuencia_inicial">No. {{factura_secuencia}}</h4>
+				<h4 class="center-text">No. <?php echo $factura->secuencia;?></h4>
 			</div>
 			</div>
 			<div class="grid-two-columns">
@@ -396,11 +385,48 @@ $factura = new Factura("principal");
 	
 	<div class="container-pago">
 		
-			
+			<div class="subcontainer-pago-izquierdo" style="visibility:hidden;">
+			<div class="subcontainer-pago-izquierdo-round">
+				<div class="grid-two-columns">
+					<h3>Forma de pago</h3>
+				</div>
+				<div class="grid-container-two-columns">
+					<div class="grid-one-column  border-all">
+						<h4>Efectivo</h4>
+					</div>
+					<div class="grid-one-column  border-all">
+						<h4>XYZ</h4>
+					</div>
+				</div>
+				
+				<div class="grid-container-two-columns">
+					<div class="grid-one-column  border-all">
+						<h4>Dinero Electronico</h4>
+					</div>
+					<div class="grid-one-column  border-all">
+						<h4>XYZ</h4>
+					</div>
+				</div>
+				
+				<div class="espaciado">
+					<div class="grid-container-two-columns ">
+						<div class="grid-two-columns">
+							<hr class="hr3">
+						</div>
+					</div>
+				</div>
+				
+				<div class="grid-container-two-columns ">
+					<div class="grid-two-columns">
+						<h4 class="center-text">Recibi conforme</h4>
+					</div>
+				</div>
+			</div>
+			</div>
 			
 			
 			<div class="subcontainer-pago-derecho">
-				<div class="grid-container-two-columns valores_facturar">
+				<div class="grid-container-two-columns">
 					<div class="grid-one-column">
 						<h4>SubTotal 12% IVA</h4>
 					</div>
@@ -429,10 +455,10 @@ $factura = new Factura("principal");
 						<h4>{{iva_12}}</h4>
 					</div>
 					
-					<div class="grid-one-column row_valor_total">
+					<div class="grid-one-column">
 						<h4>VALOR TOTAL</h4>
 					</div>
-					<div class="grid-one-column row_valor_total">
+					<div class="grid-one-column">
 						<h4>{{factura_total}}</h4>
 					</div>
 				</div>
@@ -441,7 +467,7 @@ $factura = new Factura("principal");
 		
 	</div>
 	
-<button ng-click="finalizar_facturacion()" class="btn btn-secundary btn-info" >Guardar Factura </button>
+<button ng-click="finalizar_facturacion()">Guardar Factura </button>
 	
 </body>
 	
@@ -451,6 +477,7 @@ $factura = new Factura("principal");
 ?>
 	
 </html>
+
 
 
 

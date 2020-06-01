@@ -17,5 +17,10 @@ use Validador\Validar;
 	require("Empresa.php");
 	$empresa = new Empresa();
 	print_r($empresa->nombre);
+	
+	require("Cliente.php");
+	$cliente = new Cliente("43");
+	
+	
 
 ?>

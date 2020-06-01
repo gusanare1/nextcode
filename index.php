@@ -24,7 +24,7 @@ if(isset($_SESSION["username"]))
 else
 {
 	$_SESSION["error"]="No permitido";
-	include_once('error.php');
+	header('Location: error.php');
 	
 
 }

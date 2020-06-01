@@ -14,18 +14,27 @@ namespace DatosPersonales;
 	*/
 	const folder_mantenimiento = "mantenimiento/";
 	const folder_producto = "producto/";
+	const folder_facturacion = "facturacion/";
+	
 	public static 	$navegador_url = ["mantenimiento_configuracion"=>self::folder_mantenimiento."mantenimiento_configuracion.html", 
 									"mantenimiento_clientes"=>self::folder_mantenimiento."mantenimiento_clientes.html", 
 									"mantenimiento_empresa"=>self::folder_mantenimiento."mantenimiento_empresa.html",
 									"mantenimiento_productos"=>self::folder_producto."mantenimiento_productos.html",
+									"creacion_factura" => "factura.php",
+									"consulta_facturas"=>self::folder_facturacion."consulta_facturas.php",
 									];
 	
 	public static 	$navegador_titulo = ["mantenimiento_configuracion"=>"Mantenimiento de Configuracion", 
 									"mantenimiento_clientes"=>"Mantenimiento de Clientes", 
 									"mantenimiento_empresa"=>"Mantenimiento de la Empresa",
-									"mantenimiento_productos"=>"Mantenimiento de Producto"];
+									"mantenimiento_productos"=>"Mantenimiento de Producto",
+									"creacion_factura"=> "Creacion de factura",
+									"consulta_facturas"=>"Consulta de facturas",
+									];
 	private $navegador_paginas = [	"admin"=>	
-													["mantenimiento_configuracion","mantenimiento_clientes","mantenimiento_empresa","mantenimiento_productos"],
+													["mantenimiento_configuracion","mantenimiento_clientes","mantenimiento_empresa","mantenimiento_productos",
+													"creacion_factura",
+													"consulta_facturas"],
 									"mantenimiento"=>
 													["mantenimiento_configuracion","mantenimiento_clientes","mantenimiento_empresa"],
 									];
