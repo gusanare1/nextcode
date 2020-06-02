@@ -2,6 +2,7 @@
 include("Empresa.php");
 require_once("facturacion/Factura.php");
 session_start();
+$isId = false;
 if(!isset($_SESSION["username"]))
 {
 	$_SESSION["error"]="No permitido";
@@ -11,6 +12,8 @@ else{
 	
 $empresa = new Empresa();
 $factura = new Factura("principal");
+$isId = isset($_GET["id"]);
+
 }
 ?>
 <html>
@@ -249,8 +252,8 @@ $factura = new Factura("principal");
 				<h3 class="center-text">FACTURA</h3>
 			</div>
 			<div class="grid-one-column">
-				<h4 class="center-text" ng-if="!show_secuencia_inicial" >No. <?php echo $factura->secuencia;?></h4>
-				<h4 class="center-text" ng-if="show_secuencia_inicial">No. {{factura_secuencia}}</h4>
+				<h4 class="center-text" ng-if="!show_secuencia_inicial" >No. <?php if(!$isId) echo $factura->secuencia;?></h4>
+				<h4 class="center-text" ng-if="show_secuencia_inicial">No. {{("000-00000-00-00"+factura_secuencia).slice(-12)}}</h4>
 			</div>
 			</div>
 			<div class="grid-two-columns">
@@ -441,10 +444,13 @@ $factura = new Factura("principal");
 		
 	</div>
 	
-<button ng-click="finalizar_facturacion()" class="btn btn-secundary btn-info" >Guardar Factura </button>
+<button ng-click="finalizar_facturacion()" class="btn btn-secundary btn-info" ng-disabled="btn_guardar" >Guardar Factura </button>
 	
+<button ng-click="imprimir_facturacion()" class="btn btn-secundary btn-info" ng-disabled="btn_imprimir" >Imprimir Factura </button>
 </body>
-	
+<br>
+* Debe guardar la factura <br>
+Primero
 
 <?php
 //Reimpresion

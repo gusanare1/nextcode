@@ -35,6 +35,91 @@ if(month < 10){
   hoy = `${year}-${month}-${month}`;
 }
 
+var isId=false;
+var no_factura;
+var url = window.location.href;
+var arr_ = url.split("?");
+$scope.btn_imprimir=true;
+$scope.btn_guardar=true;
+
+if(!(arr_[1] === undefined))
+{
+	no_factura = arr_[1].split("=")[1];
+	console.log(no_factura);
+
+	if ( arr_[1] === undefined )
+	{
+		console.log("NO ID");
+		
+	}
+		
+	else {
+		console.log("SI HAY ID");
+		if(!isNaN(no_factura) ){
+			console.log("Es numero");
+			isId=true;
+			
+			
+		}
+			
+	}
+}
+else
+{
+	$scope.btn_guardar=false;
+}
+	
+
+	$scope.show_secuencia_inicial = isId;
+
+if(isId)
+{
+	console.log("Cambio boton IMRPIMRI");
+	$scope.btn_imprimir=false;
+
+	
+	$scope.factura_secuencia = no_factura;
+	$http({
+		  method: 'POST',
+		  url: 'busquedas.php',
+		  data: {'action':"fetch_factura", "no_factura":no_factura}
+
+		}).then(function successCallback(response) {
+			console.log(response.data);
+			$scope.cliente_nombre = response.data.personal.nombre;
+			$scope.cliente_ci = response.data.personal.identificacion;
+			$scope.fecha_factura = response.data.personal.fecha_emision;
+			
+			var productos = response.data.productos;
+			var i;
+			for(i=0;i<productos.length;i++)
+			{
+				var cantidad = productos[i].cantidad;
+				var p_unitario = productos[i].p_unitario;
+				$("#c_c"+i).val(cantidad);
+				$("#c_d"+i).val(productos[i].nombre);
+				$("#pr_id"+i).val(p_unitario);
+				var total = parseFloat(cantidad*p_unitario).toFixed(2);
+				$("#c_t"+i).val(total);
+				$scope.buscar_cambios();
+				
+			}
+			
+			
+			
+			$("#fecha_factura").val(response.data.personal.fecha_emision);
+		}, function errorCallback(response) {
+			console.log(response);
+		  alert("Error");
+		});
+		
+		
+}
+
+
+
+
+
 
 $("#fecha_factura").val(hoy);
 
@@ -268,13 +353,10 @@ $scope.atras = function(){
   };
   
  
-
-		
-		
-$scope.finalizar_facturacion = function(){
-	 console.log("Exportando");
+$scope.imprimir_facturacion = function()
+{
+	
 	 
-	 /*
 	 html2canvas(document.getElementById('exportthis'), {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
@@ -284,10 +366,19 @@ $scope.finalizar_facturacion = function(){
                         width: 500,
                     }]
                 };
-                pdfMake.createPdf(docDefinition).download("test.pdf");
+				from = new Date();
+				var df= from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + (from.getDate());
+                pdfMake.createPdf(docDefinition).download("factura"+df+".pdf");
             }
         });
-     */
+    
+}
+
+		
+	
+$scope.finalizar_facturacion = function(){
+	 console.log("Guardando");
+	 
 	 
 	productos = [];
 	factura = [];
@@ -321,6 +412,9 @@ $scope.finalizar_facturacion = function(){
 			$scope.factura_secuencia = response.data.secuencia;
 			$scope.lista = response.data.resultado;
 			$scope.flag = true;
+			$scope.btn_guardar = true;
+			$scope.btn_imprimir = false;
+
 
 		}, function errorCallback(response) {
 			console.log(response);
@@ -401,8 +495,14 @@ $scope.buscar = function(clase, subclase){
 
 
 
-$scope.fetchProducto = function(id){
-		$http({
+$scope.fetchFacura = function(id){
+	
+	var no_factura = id;
+	$window.location.href= "../factura.php?id="+id;
+	
+	
+	
+	$http({
       method: 'POST',
       url: 'producto.php',
       data: {'id':id, 'action':'mantenimiento_productos_get_producto'}
@@ -424,6 +524,8 @@ $scope.fetchProducto = function(id){
 		console.log(response);
       alert("Error. Error getting productos!");
     });
+	
+	
 	}
 
 

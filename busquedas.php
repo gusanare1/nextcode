@@ -128,10 +128,30 @@
 		
 		//print_r(count($arr_factura[0]->Productos));
 	}
+
+
+	if($form_data->action=="fetch_factura")
+	{
+		$data = array(
+		':no_factura' => $form_data->no_factura,
+		);
+		$query = "SELECT c.identificacion, c.nombre, f.fecha_emision FROM cliente c, factura f WHERE f.idcliente = c.id and f.no_factura = :no_factura";
+		$statement = $connect->prepare($query);
+		$statement->execute($data);
+		$result = $statement->fetch();
+		$output["message"] = "Correcto";
+		$output["personal"] = $result;
+
+		$query2 = "SELECT fd.cantidad, fd.p_unitario, p.nombre, fd.idFactura FROM factura_detalle fd, producto p WHERE fd.idProducto=p.id AND fd.idFactura=:no_factura";
+		$statement = $connect->prepare($query2);
+		$statement->execute($data);
+		$result = $statement->fetchAll();
+		$output["productos"] = $result;
+	}
 	
 	
 	
-	if($form_data->action="consulta_factura")
+	if($form_data->action=="consulta_factura")
 	{
 		$data = array(
 		);
@@ -142,6 +162,8 @@
 		$output["message"] = "Correcto";
 		$output["facturas"] = $result;	
 	}
+	
+
 	
 	
 	
